@@ -31,9 +31,6 @@
     <label for="quantIsentos">Quantidade de Isentos:</label>
     <input type="number" id="quantIsentos" min="0"><br>
     
-    <label for="margemSeguranca">Margem de Segurança (%):</label>
-    <input type="number" id="margemSeguranca" min="0" step="0.01"><br>
-    
     <button onclick="calcularValor()">Calcular</button>
     <div id="resultado"></div>
 
@@ -42,14 +39,12 @@
             const valorVan = parseFloat(document.getElementById('valorVan').value);
             const quantPagantes = parseInt(document.getElementById('quantPagantes').value);
             const quantIsentos = parseInt(document.getElementById('quantIsentos').value);
-            const margemSeguranca = parseFloat(document.getElementById('margemSeguranca').value) / 100;
 
             const totalPessoas = quantPagantes + quantIsentos;
             const valorPorPagante = valorVan / quantPagantes;
-            const valorComMargem = valorPorPagante * (1 + margemSeguranca);
 
             const resultado = document.getElementById('resultado');
-            resultado.textContent = `Valor por pagante: R$ ${valorComMargem.toFixed(2)}`;
+            resultado.textContent = `Valor por pagante: R$ ${valorPorPagante.toFixed(2)}`;
         }
     </script>
 </body>
