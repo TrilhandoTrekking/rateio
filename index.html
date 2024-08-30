@@ -25,7 +25,7 @@
     <h1>Cálculo do Valor da Van</h1>
     <form id="vanForm">
         <label for="valorVan">Valor da Van (R$):</label>
-        <input type="number" id="valorVan" required>
+        <input type="number" id="valorVan" step="0.01" required>
         
         <label for="guiasIsentos">Guias Isentos:</label>
         <input type="number" id="guiasIsentos" required>
@@ -46,9 +46,10 @@
             
             // Calcula o valor a ser pago por cada pagante
             const valorPagantes = valorVan / lugaresPagantes;
-
-            // O valor do caixa é o mesmo que o valor de cada pagante
-            const caixa = valorPagantes;
+            
+            // Arredonda os valores para duas casas decimais
+            const valorPagantesArredondado = Math.round(valorPagantes * 100) / 100;
+            const caixa = valorPagantesArredondado;
 
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
@@ -57,7 +58,7 @@
                 Guias Isentos: ${guiasIsentos}<br>
                 Lugares na Van: ${lugaresVan}<br>
                 Caixa: R$ ${caixa.toFixed(2)}<br>
-                Valor dos Pagantes: R$ ${valorPagantes.toFixed(2)}
+                Valor dos Pagantes: R$ ${valorPagantesArredondado.toFixed(2)}
             `;
         }
     </script>
