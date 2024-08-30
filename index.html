@@ -29,19 +29,17 @@
         
         <label for="guiasIsentos">Guias Isentos:</label>
         <input type="number" id="guiasIsentos" required>
-        
-        <button type="button" onclick="calcular()">Calcular</button>
     </form>
     
     <div id="result"></div>
 
     <script>
         function calcular() {
-            const valorVan = parseFloat(document.getElementById('valorVan').value);
-            const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value);
+            const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
+            const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
             const lugaresVan = 18;
             const caixa = 215;
-            const valorPagantes = caixa; // Valor dos pagantes é o mesmo valor do caixa
+            const valorPagantes = caixa;
 
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
@@ -53,6 +51,12 @@
                 Valor dos Pagantes: R$ ${valorPagantes.toFixed(2)}
             `;
         }
+
+        document.getElementById('valorVan').addEventListener('input', calcular);
+        document.getElementById('guiasIsentos').addEventListener('input', calcular);
+
+        // Trigger the calculation on page load
+        calcular();
     </script>
 </body>
 </html>
