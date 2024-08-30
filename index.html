@@ -15,23 +15,6 @@
         }
         #result {
             margin-top: 20px;
-            padding: 10px;<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cálculo do Valor da Van</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        label, input, button {
-            display: block;
-            margin-bottom: 10px;
-        }
-        #result {
-            margin-top: 20px;
             padding: 10px;
             border: 1px solid #000;
             width: fit-content;
@@ -60,48 +43,6 @@
             const lugaresPagantes = lugaresVan - guiasIsentos + 1;
             const valorPagantes = valorVan / lugaresPagantes;
             const caixa = valorPagantes; // O valor do caixa é igual ao valor dos pagantes
-
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <strong>Resultado:</strong><br>
-                Valor da Van: R$ ${valorVan.toFixed(2)}<br>
-                Guias Isentos: ${guiasIsentos}<br>
-                Lugares na Van: ${lugaresVan}<br>
-                Caixa: R$ ${caixa.toFixed(2)}<br>
-                Valor dos Pagantes: R$ ${valorPagantes.toFixed(2)}
-            `;
-        }
-    </script>
-</body>
-</html>
-
-            border: 1px solid #000;
-            width: fit-content;
-        }
-    </style>
-</head>
-<body>
-    <h1>Cálculo do Valor da Van</h1>
-    <form id="vanForm">
-        <label for="valorVan">Valor da Van (R$):</label>
-        <input type="number" id="valorVan" required>
-        
-        <label for="guiasIsentos">Guias Isentos:</label>
-        <input type="number" id="guiasIsentos" required>
-        
-        <button type="button" onclick="calcular()">Calcular</button>
-    </form>
-    
-    <div id="result"></div>
-
-    <script>
-        function calcular() {
-            const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
-            const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
-            const lugaresVan = 18;
-            const caixa = guiasIsentos + 1; // guias + 1 para o caixa
-            const lugaresPagantes = lugaresVan - caixa;
-            const valorPagantes = valorVan / lugaresPagantes;
 
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
