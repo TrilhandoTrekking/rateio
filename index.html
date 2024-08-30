@@ -47,8 +47,8 @@
             // Calcula o valor a ser pago por cada pagante
             const valorPagantes = valorVan / lugaresPagantes;
             
-            // Arredonda os valores para duas casas decimais
-            const valorPagantesArredondado = Math.round(valorPagantes * 100) / 100;
+            // Arredonda os valores para cima
+            const valorPagantesArredondado = Math.ceil(valorPagantes);
             const caixa = valorPagantesArredondado;
 
             const resultDiv = document.getElementById('result');
