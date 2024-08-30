@@ -40,8 +40,8 @@
             const valorVan = parseFloat(document.getElementById('valorVan').value);
             const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value);
             const lugaresVan = 18;
-            const caixa = guiasIsentos + 1;
-            const valorPagantes = (valorVan - caixa * 215) / (lugaresVan - caixa);
+            const caixa = 215;
+            const valorPagantes = caixa; // Valor dos pagantes é o mesmo valor do caixa
 
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
@@ -49,7 +49,7 @@
                 Valor da Van: R$ ${valorVan.toFixed(2)}<br>
                 Guias Isentos: ${guiasIsentos}<br>
                 Lugares na Van: ${lugaresVan}<br>
-                Caixa: R$ ${(caixa * 215).toFixed(2)}<br>
+                Caixa: R$ ${caixa.toFixed(2)}<br>
                 Valor dos Pagantes: R$ ${valorPagantes.toFixed(2)}
             `;
         }
