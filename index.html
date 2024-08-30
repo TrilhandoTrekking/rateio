@@ -21,19 +21,22 @@
         }
         .radio-group {
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
         }
         .radio-group label {
+            display: inline;
             margin-right: 15px;
+        }
+        .radio-group div {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
 <body>
     <h1>Cálculo do Valor da Van</h1>
     <form id="vanForm">
+        <label>Escolha o número de lugares na Van:</label>
         <div class="radio-group">
-            <label>Escolha o número de lugares na Van:</label>
             <input type="radio" id="lugares18" name="lugares" value="18" checked>
             <label for="lugares18">18 lugares</label>
             <input type="radio" id="lugares19" name="lugares" value="19">
