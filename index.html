@@ -3,48 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Van</title>
+    <title>Cálculo do Valor da Van</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
+            margin: 20px;
         }
-        input, button {
-            padding: 10px;
-            margin: 10px;
+        label, input {
+            display: block;
+            margin-bottom: 10px;
         }
-        #resultado {
-            font-size: 1.5em;
+        #result {
             margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #000;
+            width: fit-content;
         }
     </style>
 </head>
 <body>
-    <h1>Calculadora de Van</h1>
-    <label for="valorVan">Valor da Van:</label>
-    <input type="number" id="valorVan" min="0" step="0.01"><br>
+    <h1>Cálculo do Valor da Van</h1>
+    <form id="vanForm">
+        <label for="valorVan">Valor da Van (R$):</label>
+        <input type="number" id="valorVan" required>
+        
+        <label for="guiasIsentos">Guias Isentos:</label>
+        <input type="number" id="guiasIsentos" required>
+        
+        <button type="button" onclick="calcular()">Calcular</button>
+    </form>
     
-    <label for="quantPagantes">Quantidade de Pagantes:</label>
-    <input type="number" id="quantPagantes" min="1"><br>
-    
-    <label for="quantIsentos">Quantidade de Isentos:</label>
-    <input type="number" id="quantIsentos" min="0"><br>
-    
-    <button onclick="calcularValor()">Calcular</button>
-    <div id="resultado"></div>
+    <div id="result"></div>
 
     <script>
-        function calcularValor() {
+        function calcular() {
             const valorVan = parseFloat(document.getElementById('valorVan').value);
-            const quantPagantes = parseInt(document.getElementById('quantPagantes').value);
-            const quantIsentos = parseInt(document.getElementById('quantIsentos').value);
+            const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value);
+            const lugaresVan = 18;
+            const caixa = guiasIsentos + 1;
+            const valorPagantes = (valorVan - caixa * 215) / (lugaresVan - caixa);
 
-            const totalPessoas = quantPagantes + quantIsentos;
-            const valorPorPagante = valorVan / quantPagantes;
-
-            const resultado = document.getElementById('resultado');
-            resultado.textContent = `Valor por pagante: R$ ${valorPorPagante.toFixed(2)}`;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <strong>Resultado:</strong><br>
+                Valor da Van: R$ ${valorVan.toFixed(2)}<br>
+                Guias Isentos: ${guiasIsentos}<br>
+                Lugares na Van: ${lugaresVan}<br>
+                Caixa: R$ ${(caixa * 215).toFixed(2)}<br>
+                Valor dos Pagantes: R$ ${valorPagantes.toFixed(2)}
+            `;
         }
     </script>
 </body>
