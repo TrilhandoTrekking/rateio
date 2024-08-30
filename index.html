@@ -40,8 +40,15 @@
             const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
             const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
             const lugaresVan = 18;
-            const totalGuiasMaisCaixa = guiasIsentos + 1;
-            const valorPagantes = valorVan / totalGuiasMaisCaixa;
+            
+            // Calcula o número de lugares disponíveis para pagantes
+            const lugaresPagantes = lugaresVan - guiasIsentos - 1; // -1 para o caixa
+            
+            // Calcula o valor a ser pago por cada pagante
+            const valorPagantes = valorVan / lugaresPagantes;
+
+            // O valor do caixa é o mesmo que o valor de cada pagante
+            const caixa = valorPagantes;
 
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
@@ -49,7 +56,7 @@
                 Valor da Van: R$ ${valorVan.toFixed(2)}<br>
                 Guias Isentos: ${guiasIsentos}<br>
                 Lugares na Van: ${lugaresVan}<br>
-                Caixa: R$ ${valorPagantes.toFixed(2)}<br>
+                Caixa: R$ ${caixa.toFixed(2)}<br>
                 Valor dos Pagantes: R$ ${valorPagantes.toFixed(2)}
             `;
         }
