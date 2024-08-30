@@ -39,7 +39,8 @@
             const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
             const lugaresVan = 18;
             const caixa = 215;
-            const valorPagantes = caixa;
+            const lugaresPagantes = lugaresVan - guiasIsentos - 1;
+            const valorPagantes = valorVan / lugaresPagantes;
 
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
