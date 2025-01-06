@@ -13,7 +13,6 @@
     <meta property="og:image" content="https://trilhandotrekking.github.io/rateio/logoVan.png">
     <meta property="og:url" content="https://trilhandotrekking.github.io/rateio/">
 
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -90,7 +89,13 @@
             const lugaresVan = parseInt(lugaresSelecionados);
             
             // Calcula o número de lugares disponíveis para pagantes
-            const lugaresPagantes = lugaresVan - guiasIsentos + 1; // -1 para o caixa
+            const lugaresPagantes = lugaresVan - guiasIsentos - 1; // -1 para o caixa
+            
+            // Verifica se o número de pagantes é válido (não pode ser negativo)
+            if (lugaresPagantes <= 0) {
+                alert("Número de guias isentos excede o número de lugares disponíveis!");
+                return;
+            }
             
             // Calcula o valor a ser pago por cada pagante
             const valorPagantes = valorVan / lugaresPagantes;
