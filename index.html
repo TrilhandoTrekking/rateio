@@ -90,7 +90,7 @@
             const lugaresVan = parseInt(lugaresSelecionados);
             
             // Calcula o número de lugares disponíveis para pagantes
-            const lugaresPagantes = lugaresVan - guiasIsentos - 1; // -1 para o caixa
+            const lugaresPagantes = lugaresVan - guiasIsentos + 1; // -1 para o caixa
             
             // Calcula o valor a ser pago por cada pagante
             const valorPagantes = valorVan / lugaresPagantes;
