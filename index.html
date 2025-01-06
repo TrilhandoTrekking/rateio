@@ -88,11 +88,8 @@
             const lugaresSelecionados = document.querySelector('input[name="lugares"]:checked').value;
             const lugaresVan = parseInt(lugaresSelecionados);
             
-            // Adiciona 1 ao número de guias isentos (conforme solicitado)
-            const guiasIsentosTotal = guiasIsentos + 1;
-            
             // Calcula o número de lugares disponíveis para pagantes
-            const lugaresPagantes = lugaresVan - guiasIsentosTotal - 1; // -1 para o caixa
+            const lugaresPagantes = lugaresVan - guiasIsentos - 1; // -1 para o caixa
             
             // Verifica se o número de pagantes é válido (não pode ser negativo)
             if (lugaresPagantes <= 0) {
@@ -111,11 +108,12 @@
             resultDiv.innerHTML = `
                 <strong>Resultado:</strong><br>
                 Valor da Van: R$ ${valorVan.toFixed(2)}<br>
-                Guias Isentos (incluindo +1): ${guiasIsentosTotal}<br>
+                Guias Isentos: ${guiasIsentos}<br>
+                Caixa: 1<br>
                 Lugares na Van: ${lugaresVan}<br>
                 Quantidade de Pagantes: ${lugaresPagantes}<br>
-                Caixa: R$ ${caixa.toFixed(2)}<br>
-                Valor dos Pagantes: R$ ${valorPagantesArredondado.toFixed(2)}
+                Valor dos Pagantes: R$ ${valorPagantesArredondado.toFixed(2)}<br>
+                Caixa: R$ ${caixa.toFixed(2)}
             `;
         }
     </script>
