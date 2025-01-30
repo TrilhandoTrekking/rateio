@@ -74,6 +74,9 @@
         <label for="guiasIsentos">Guias Isentos:</label>
         <input type="number" id="guiasIsentos" required>
         
+        <label for="valorAlmoco">Valor do Almoço por Isento (R$):</label>
+        <input type="number" id="valorAlmoco" step="0.01" required>
+        
         <button type="button" onclick="calcular()">Calcular</button>
     </form>
     
@@ -83,6 +86,7 @@
         function calcular() {
             const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
             const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
+            const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
             
             // Obtém o número de lugares selecionado
             const lugaresSelecionados = document.querySelector('input[name="lugares"]:checked').value;
@@ -97,8 +101,14 @@
                 return;
             }
             
+            // Calcula o valor total do almoço dos isentos
+            const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
+            
+            // Calcula o valor total a ser rateado (van + almoço dos isentos)
+            const valorTotal = valorVan + totalAlmocoIsentos;
+            
             // Calcula o valor a ser pago por cada pagante
-            const valorPagantes = valorVan / lugaresPagantes;
+            const valorPagantes = valorTotal / lugaresPagantes;
             
             // Arredonda os valores para cima
             const valorPagantesArredondado = Math.ceil(valorPagantes);
@@ -109,6 +119,8 @@
                 <strong>Resultado:</strong><br>
                 Valor da Van: R$ ${valorVan.toFixed(2)}<br>
                 Guias Isentos: ${guiasIsentos}<br>
+                Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
+                Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
                 Caixa: 1<br>
                 Lugares na Van: ${lugaresVan}<br>
                 Quantidade de Pagantes: ${lugaresPagantes}<br>
