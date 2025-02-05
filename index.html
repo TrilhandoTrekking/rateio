@@ -89,7 +89,7 @@
         const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
         const lugaresVan = parseInt(document.querySelector('input[name="lugares"]:checked').value);
 
-        // Passo 1: Calcular lugares disponíveis para pagantes (incluindo o caixa)
+        // Lugares disponíveis para pagantes (incluindo o caixa)
         const lugaresPagantes = lugaresVan - guiasIsentos;
 
         if (lugaresPagantes <= 1) {
@@ -97,20 +97,25 @@
             return;
         }
 
-        // Passo 2: Calcular o total a ser rateado (van + almoço dos isentos)
+        // Total dos almoços dos isentos
         const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
+
+        // Total a ser rateado (van + almoços)
         const valorTotal = valorVan + totalAlmocoIsentos;
 
-        // Passo 3: Dividir igualmente entre todos os lugares pagantes (incluindo o caixa)
-        const valorPorPessoa = valorTotal / lugaresPagantes;
-        const valorPorPessoaArredondado = Math.ceil(valorPorPessoa); // Arredonda para cima
+        // Cálculo do valor por pagante (incluindo a parte do caixa)
+        const participantesReais = lugaresPagantes - 1; // Exclui o caixa
+        const valorPorPessoa = valorTotal / (participantesReais - 1); // -1 para incluir o caixa no rateio
+        const valorPorPessoaArredondado = Math.ceil(valorPorPessoa);
 
-        // Passo 4: Calcular valores finais
+        // Caixa (sobra) = valor por pagante
         const caixa = valorPorPessoaArredondado;
-        const quantidadePagantes = lugaresPagantes - 1; // Exclui o caixa
 
-        // Passo 5: Exibir resultados (CORREÇÃO APLICADA AQUI)
-        const resultDiv = document.getElementById('result'); // String corrigida
+        // Total arrecadado
+        const totalArrecadado = valorPorPessoaArredondado * participantesReais;
+
+        // Exibir resultados
+        const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = `
             <strong>Resultado:</strong><br>
             Valor da Van: R$ ${valorVan.toFixed(2)}<br>
@@ -118,15 +123,13 @@
             Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
             Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
             Lugares na Van: ${lugaresVan}<br>
-            Quantidade de Pagantes: ${quantidadePagantes}<br>
+            Quantidade de Pagantes: ${participantesReais}<br>
             Valor por Pagante: R$ ${valorPorPessoaArredondado.toFixed(2)}<br>
             Caixa (sobra): R$ ${caixa.toFixed(2)}<br>
-            Total Arrecadado: R$ ${(valorPorPessoaArredondado * lugaresPagantes).toFixed(2)}
+            Total Arrecadado: R$ ${totalArrecadado.toFixed(2)}
         `;
     }
 </script>
-
-
 
 
 </body>
