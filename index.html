@@ -92,11 +92,11 @@
         const lugaresSelecionados = document.querySelector('input[name="lugares"]:checked').value;
         const lugaresVan = parseInt(lugaresSelecionados);
 
-        // Calcula o número de lugares disponíveis para pagantes
-        const lugaresPagantes = lugaresVan - guiasIsentos - 1; // -1 para o caixa
+        // Calcula o número de lugares disponíveis para pagantes (excluindo isentos e caixa)
+        const lugaresPagantes = lugaresVan - guiasIsentos;
 
         // Verifica se o número de pagantes é válido
-        if (lugaresPagantes <= 0) {
+        if (lugaresPagantes <= 1) {
             alert("Número de guias isentos excede o número de lugares disponíveis!");
             return;
         }
@@ -108,12 +108,10 @@
         const valorTotal = valorVan + totalAlmocoIsentos;
 
         // Calcula o valor a ser pago por cada pagante
-        const valorPagantes = valorTotal / lugaresPagantes;
-
-        // Arredonda o valor para cima
+        const valorPagantes = valorTotal / (lugaresPagantes - 1); // O caixa também paga
         const valorPagantesArredondado = Math.ceil(valorPagantes);
 
-        // O caixa deve ser o mesmo valor que os pagantes pagam
+        // O caixa deve ser igual ao valor dos pagantes
         const caixa = valorPagantesArredondado;
 
         const resultDiv = document.getElementById('result');
@@ -125,12 +123,13 @@
             Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
             Caixa: 1<br>
             Lugares na Van: ${lugaresVan}<br>
-            Quantidade de Pagantes: ${lugaresPagantes}<br>
+            Quantidade de Pagantes: ${lugaresPagantes - 1}<br>
             Valor dos Pagantes: R$ ${valorPagantesArredondado.toFixed(2)}<br>
             Caixa: R$ ${caixa.toFixed(2)}
         `;
     }
 </script>
+
 
 
 </body>
