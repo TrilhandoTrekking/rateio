@@ -82,52 +82,56 @@
     
     <div id="result"></div>
 
-    <script>
-        function calcular() {
-            const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
-            const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
-            const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
-            
-            // Obtém o número de lugares selecionado
-            const lugaresSelecionados = document.querySelector('input[name="lugares"]:checked').value;
-            const lugaresVan = parseInt(lugaresSelecionados);
-            
-            // Calcula o número de lugares disponíveis para pagantes
-            const lugaresPagantes = lugaresVan - guiasIsentos - 1; // -1 para o caixa
-            
-            // Verifica se o número de pagantes é válido (não pode ser negativo)
-            if (lugaresPagantes <= 0) {
-                alert("Número de guias isentos excede o número de lugares disponíveis!");
-                return;
-            }
-            
-            // Calcula o valor total do almoço dos isentos
-            const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
-            
-            // Calcula o valor total a ser rateado (van + almoço dos isentos)
-            const valorTotal = valorVan + totalAlmocoIsentos;
-            
-            // Calcula o valor a ser pago por cada pagante
-            const valorPagantes = valorTotal / lugaresPagantes;
-            
-            // Arredonda os valores para cima
-            const valorPagantesArredondado = Math.ceil(valorPagantes);
-            const caixa = valorPagantesArredondado;
+  <script>
+    function calcular() {
+        const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
+        const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
+        const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
 
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <strong>Resultado:</strong><br>
-                Valor da Van: R$ ${valorVan.toFixed(2)}<br>
-                Guias Isentos: ${guiasIsentos}<br>
-                Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
-                Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
-                Caixa: 1<br>
-                Lugares na Van: ${lugaresVan}<br>
-                Quantidade de Pagantes: ${lugaresPagantes}<br>
-                Valor dos Pagantes: R$ ${valorPagantesArredondado.toFixed(2)}<br>
-                Caixa: R$ ${caixa.toFixed(2)}
-            `;
+        // Obtém o número de lugares selecionado
+        const lugaresSelecionados = document.querySelector('input[name="lugares"]:checked').value;
+        const lugaresVan = parseInt(lugaresSelecionados);
+
+        // Calcula o número de lugares disponíveis para pagantes
+        const lugaresPagantes = lugaresVan - guiasIsentos - 1; // -1 para o caixa
+
+        // Verifica se o número de pagantes é válido
+        if (lugaresPagantes <= 0) {
+            alert("Número de guias isentos excede o número de lugares disponíveis!");
+            return;
         }
-    </script>
+
+        // Calcula o total do almoço dos isentos
+        const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
+
+        // Calcula o valor total a ser rateado (van + almoço dos isentos)
+        const valorTotal = valorVan + totalAlmocoIsentos;
+
+        // Calcula o valor a ser pago por cada pagante
+        const valorPagantes = valorTotal / lugaresPagantes;
+
+        // Arredonda o valor de forma justa
+        const valorPagantesArredondado = Math.round(valorPagantes);
+
+        // O caixa recebe a diferença entre o valor total e o que foi pago pelos pagantes
+        const valorTotalArrecadado = valorPagantesArredondado * lugaresPagantes;
+        const caixa = valorTotalArrecadado - valorTotal;
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <strong>Resultado:</strong><br>
+            Valor da Van: R$ ${valorVan.toFixed(2)}<br>
+            Guias Isentos: ${guiasIsentos}<br>
+            Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
+            Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
+            Caixa: 1<br>
+            Lugares na Van: ${lugaresVan}<br>
+            Quantidade de Pagantes: ${lugaresPagantes}<br>
+            Valor dos Pagantes: R$ ${valorPagantesArredondado.toFixed(2)}<br>
+            Caixa: R$ ${caixa.toFixed(2)}
+        `;
+    }
+</script>
+
 </body>
 </html>
