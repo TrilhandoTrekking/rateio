@@ -83,54 +83,51 @@
     <div id="result"></div>
 
 <script>
-    function calcular() {
-        const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
-        const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
-        const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
-        const lugaresVan = parseInt(document.querySelector('input[name="lugares"]:checked').value);
+  function calcular() {
+    const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
+    const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
+    const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
+    const lugaresVan = parseInt(document.querySelector('input[name="lugares"]:checked').value);
 
-        // Lugares disponíveis para pagantes (excluindo isentos)
-        const lugaresPagantes = lugaresVan - guiasIsentos;
+    // Lugares disponíveis para pagantes (excluindo isentos)
+    const lugaresPagantes = lugaresVan - guiasIsentos;
 
-        if (lugaresPagantes <= 1) {
-            alert("Número de guias isentos excede o número de lugares disponíveis!");
-            return;
-        }
-
-        // Total dos almoços dos isentos
-        const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
-
-        // Total a ser rateado (van + almoços)
-        const valorTotal = valorVan + totalAlmocoIsentos;
-
-        // Quantidade de pagantes reais (excluindo o caixa)
-        const participantesReais = lugaresPagantes - 1;
-
-        // Cálculo do valor por pagante (incluindo a parte do caixa)
-        const valorPorPessoa = valorTotal / (participantesReais - 1); // Subtrai 1 para incluir o caixa
-        const valorPorPessoaArredondado = Math.ceil(valorPorPessoa);
-
-        // Caixa (sobra) = valor por pagante
-        const caixa = valorPorPessoaArredondado;
-
-        // Total arrecadado
-        const totalArrecadado = valorPorPessoaArredondado * participantesReais;
-
-        // Exibir resultados
-        const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = `
-            <strong>Resultado:</strong><br>
-            Valor da Van: R$ ${valorVan.toFixed(2)}<br>
-            Guias Isentos: ${guiasIsentos}<br>
-            Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
-            Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
-            Lugares na Van: ${lugaresVan}<br>
-            Quantidade de Pagantes: ${participantesReais}<br>
-            Valor por Pagante: R$ ${valorPorPessoaArredondado.toFixed(2)}<br>
-            Caixa (sobra): R$ ${caixa.toFixed(2)}<br>
-            Total Arrecadado: R$ ${totalArrecadado.toFixed(2)}
-        `;
+    if (lugaresPagantes <= 1) {
+        alert("Número de guias isentos excede o número de lugares disponíveis!");
+        return;
     }
+
+    // Total dos almoços dos isentos
+    const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
+
+    // Total a ser rateado (van + almoços)
+    const valorTotal = valorVan + totalAlmocoIsentos;
+
+    // Valor por pessoa, arredondado para cima
+    const valorPorPessoa = Math.ceil(valorTotal / lugaresPagantes);
+
+    // Total arrecadado
+    const totalArrecadado = valorPorPessoa * lugaresPagantes;
+
+    // Caixa (sobra) = Total arrecadado - valor da van
+    const caixa = totalArrecadado - valorVan;
+
+    // Exibir resultados
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+        <strong>Resultado:</strong><br>
+        Valor da Van: R$ ${valorVan.toFixed(2)}<br>
+        Guias Isentos: ${guiasIsentos}<br>
+        Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
+        Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
+        Lugares na Van: ${lugaresVan}<br>
+        Quantidade de Pagantes: ${lugaresPagantes}<br>
+        Valor por Pagante: R$ ${valorPorPessoa.toFixed(2)}<br>
+        Caixa (sobra): R$ ${caixa.toFixed(2)}<br>
+        Total Arrecadado: R$ ${totalArrecadado.toFixed(2)}
+    `;
+}
+
 </script>
 
 
