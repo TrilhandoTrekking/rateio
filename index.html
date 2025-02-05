@@ -83,7 +83,7 @@
     <div id="result"></div>
 
 <script>
-   function calcular() {
+    function calcular() {
         const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
         const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
         const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
@@ -109,8 +109,8 @@
         const caixa = valorPorPessoaArredondado;
         const quantidadePagantes = lugaresPagantes - 1; // Exclui o caixa
 
-        // Passo 5: Exibir resultados
-        const resultDiv = document.getElementById('result");
+        // Passo 5: Exibir resultados (CORREÇÃO APLICADA AQUI)
+        const resultDiv = document.getElementById('result'); // String corrigida
         resultDiv.innerHTML = `
             <strong>Resultado:</strong><br>
             Valor da Van: R$ ${valorVan.toFixed(2)}<br>
