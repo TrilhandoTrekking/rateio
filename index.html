@@ -89,7 +89,7 @@
         const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
         const lugaresVan = parseInt(document.querySelector('input[name="lugares"]:checked').value);
 
-        // Lugares disponíveis para pagantes (incluindo o caixa)
+        // Passo 1: Calcular lugares disponíveis para pagantes (excluindo isentos)
         const lugaresPagantes = lugaresVan - guiasIsentos;
 
         if (lugaresPagantes <= 1) {
@@ -97,24 +97,19 @@
             return;
         }
 
-        // Total dos almoços dos isentos
+        // Passo 2: Calcular o total a ser rateado (van + almoço dos isentos)
         const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
-
-        // Total a ser rateado (van + almoços)
         const valorTotal = valorVan + totalAlmocoIsentos;
 
-        // Cálculo do valor por pagante (incluindo a parte do caixa)
+        // Passo 3: Calcular valor por pagante (incluindo a parte do caixa)
         const participantesReais = lugaresPagantes - 1; // Exclui o caixa
         const valorPorPessoa = valorTotal / (participantesReais - 1); // -1 para incluir o caixa no rateio
         const valorPorPessoaArredondado = Math.ceil(valorPorPessoa);
 
-        // Caixa (sobra) = valor por pagante
+        // Passo 4: Caixa (sobra) deve ser igual ao valor dos pagantes
         const caixa = valorPorPessoaArredondado;
 
-        // Total arrecadado
-        const totalArrecadado = valorPorPessoaArredondado * participantesReais;
-
-        // Exibir resultados
+        // Passo 5: Exibir resultados
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = `
             <strong>Resultado:</strong><br>
@@ -126,7 +121,7 @@
             Quantidade de Pagantes: ${participantesReais}<br>
             Valor por Pagante: R$ ${valorPorPessoaArredondado.toFixed(2)}<br>
             Caixa (sobra): R$ ${caixa.toFixed(2)}<br>
-            Total Arrecadado: R$ ${totalArrecadado.toFixed(2)}
+            Total Arrecadado: R$ ${(valorPorPessoaArredondado * participantesReais).toFixed(2)}
         `;
     }
 </script>
