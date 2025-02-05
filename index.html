@@ -84,43 +84,46 @@
 
 <script>
    function calcular() {
-    const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
-    const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
-    const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
-    const lugaresVan = parseInt(document.querySelector('input[name="lugares"]:checked').value);
+        const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
+        const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
+        const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
+        const lugaresVan = parseInt(document.querySelector('input[name="lugares"]:checked').value);
 
-    const lugaresPagantes = lugaresVan - guiasIsentos;
+        // Passo 1: Calcular lugares disponíveis para pagantes (incluindo o caixa)
+        const lugaresPagantes = lugaresVan - guiasIsentos;
 
-    if (lugaresPagantes <= 1) {
-        alert("Número de guias isentos excede o número de lugares disponíveis!");
-        return;
+        if (lugaresPagantes <= 1) {
+            alert("Número de guias isentos excede o número de lugares disponíveis!");
+            return;
+        }
+
+        // Passo 2: Calcular o total a ser rateado (van + almoço dos isentos)
+        const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
+        const valorTotal = valorVan + totalAlmocoIsentos;
+
+        // Passo 3: Dividir igualmente entre todos os lugares pagantes (incluindo o caixa)
+        const valorPorPessoa = valorTotal / lugaresPagantes;
+        const valorPorPessoaArredondado = Math.ceil(valorPorPessoa); // Arredonda para cima
+
+        // Passo 4: Calcular valores finais
+        const caixa = valorPorPessoaArredondado;
+        const quantidadePagantes = lugaresPagantes - 1; // Exclui o caixa
+
+        // Passo 5: Exibir resultados
+        const resultDiv = document.getElementById('result");
+        resultDiv.innerHTML = `
+            <strong>Resultado:</strong><br>
+            Valor da Van: R$ ${valorVan.toFixed(2)}<br>
+            Guias Isentos: ${guiasIsentos}<br>
+            Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
+            Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
+            Lugares na Van: ${lugaresVan}<br>
+            Quantidade de Pagantes: ${quantidadePagantes}<br>
+            Valor por Pagante: R$ ${valorPorPessoaArredondado.toFixed(2)}<br>
+            Caixa (sobra): R$ ${caixa.toFixed(2)}<br>
+            Total Arrecadado: R$ ${(valorPorPessoaArredondado * lugaresPagantes).toFixed(2)}
+        `;
     }
-
-    const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
-    const valorTotal = valorVan + totalAlmocoIsentos;
-
-    // Correção: Dividir pelo número de lugares pagantes (incluindo o caixa)
-    const valorPorPessoa = valorTotal / lugaresPagantes;
-    const valorPorPessoaArredondado = Math.ceil(valorPorPessoa);
-
-    const caixa = valorPorPessoaArredondado;
-    const quantidadePagantes = lugaresPagantes - 1; // Exclui o caixa
-
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = `
-        <strong>Resultado:</strong><br>
-        Valor da Van: R$ ${valorVan.toFixed(2)}<br>
-        Guias Isentos: ${guiasIsentos}<br>
-        Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
-        Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
-        Caixa: 1<br>
-        Lugares na Van: ${lugaresVan}<br>
-        Quantidade de Pagantes: ${quantidadePagantes}<br>
-        Valor por Pagante: R$ ${valorPorPessoaArredondado.toFixed(2)}<br>
-        Caixa: R$ ${caixa.toFixed(2)}<br>
-        Total Arrecadado: R$ ${(valorPorPessoaArredondado * (quantidadePagantes + 1)).toFixed(2)}
-    `;
-}
 </script>
 
 
