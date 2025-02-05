@@ -107,8 +107,8 @@
         // Calcula o valor total a ser rateado (van + almoço dos isentos)
         const valorTotal = valorVan + totalAlmocoIsentos;
 
-        // Calcula o valor a ser pago por cada pagante
-        const valorPagantes = valorTotal / (lugaresPagantes - 1); // O caixa também paga
+        // **Correção:** Dividir pelo número correto de pagantes (incluindo o caixa)
+        const valorPagantes = valorTotal / (lugaresPagantes - 1);
         const valorPagantesArredondado = Math.ceil(valorPagantes);
 
         // O caixa deve ser igual ao valor dos pagantes
@@ -129,6 +129,7 @@
         `;
     }
 </script>
+
 
 
 
