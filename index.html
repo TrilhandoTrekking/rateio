@@ -82,7 +82,7 @@
     
     <div id="result"></div>
 
-  <script>
+<script>
     function calcular() {
         const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
         const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
@@ -110,12 +110,11 @@
         // Calcula o valor a ser pago por cada pagante
         const valorPagantes = valorTotal / lugaresPagantes;
 
-        // Arredonda o valor de forma justa
-        const valorPagantesArredondado = Math.round(valorPagantes);
+        // Arredonda o valor para cima
+        const valorPagantesArredondado = Math.ceil(valorPagantes);
 
-        // O caixa recebe a diferença entre o valor total e o que foi pago pelos pagantes
-        const valorTotalArrecadado = valorPagantesArredondado * lugaresPagantes;
-        const caixa = valorTotalArrecadado - valorTotal;
+        // O caixa deve ser o mesmo valor que os pagantes pagam
+        const caixa = valorPagantesArredondado;
 
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = `
@@ -132,6 +131,7 @@
         `;
     }
 </script>
+
 
 </body>
 </html>
