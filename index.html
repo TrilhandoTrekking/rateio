@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Van</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo do Valor da Van</title>
@@ -12,128 +15,130 @@
     <meta property="og:description" content="CÁLCULO DO VALOR DA VAN">
     <meta property="og:image" content="https://trilhandotrekking.github.io/rateio/logoVan.png">
     <meta property="og:url" content="https://trilhandotrekking.github.io/rateio/">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="number"], button {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            box-sizing: border-box; /* Para incluir o padding na largura total */
-            margin-bottom: 10px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #result {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #000;
-            width: fit-content;
-        }
-        .radio-group {
-            margin-bottom: 10px;
-        }
-        .radio-group input[type="radio"] {
-            display: inline-block;
-            margin-right: 5px;
-        }
-        .radio-group label {
-            display: inline-block;
-            margin-right: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Cálculo do Valor da Van</h1>
-    <form id="vanForm">
-        <label>Escolha o número de lugares na Van:</label>
-        <div class="radio-group">
-            <input type="radio" id="lugares18" name="lugares" value="18" checked>
-            <label for="lugares18">18 lugares</label>
-            <input type="radio" id="lugares19" name="lugares" value="19">
-            <label for="lugares19">19 lugares</label>
-        </div>
-        
-        <label for="valorVan">Valor da Van (R$):</label>
-        <input type="number" id="valorVan" step="0.01" required>
-        
-        <label for="guiasIsentos">Guias Isentos:</label>
-        <input type="number" id="guiasIsentos" required>
-        
-        <label for="valorAlmoco">Valor do Almoço por Isento (R$):</label>
-        <input type="number" id="valorAlmoco" step="0.01" required>
-        
-        <button type="button" onclick="calcular()">Calcular</button>
-    </form>
-    
-    <div id="result"></div>
-
-<script>
-function calcular() {
-    const valorVan = parseFloat(document.getElementById('valorVan').value) || 0;
-    const guiasIsentos = parseInt(document.getElementById('guiasIsentos').value) || 0;
-    const valorAlmoco = parseFloat(document.getElementById('valorAlmoco').value) || 0;
-    const lugaresVan = parseInt(document.querySelector('input[name="lugares"]:checked').value);
-
-    // Lugares pagantes (descontando isentos + 1 para o caixa)
-    let pagantes = lugaresVan - guiasIsentos - 1;
-
-    if (pagantes <= 0) {
-        alert("Número de guias isentos + 1 caixa excede o número de lugares disponíveis!");
-        return;
+	
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-    // Total dos almoços dos isentos
-    const totalAlmocoIsentos = valorAlmoco * guiasIsentos;
+    body {
+      background: #f1f5f9;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
 
-    // Total a ser rateado (van + almoços)
-    let valorTotal = valorVan + totalAlmocoIsentos;
+    .container {
+      background: #ffffff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 100%;
+    }
 
-    // Primeiro cálculo do valor por pagante sem considerar o caixa
-    let valorPorPessoa = valorTotal / pagantes;
+    h2 {
+      text-align: center;
+      color: #1e293b;
+      margin-bottom: 25px;
+    }
 
-    // Ajustar o cálculo para garantir que o caixa seja igual ao valor por pessoa
-    let valorPorPessoaFinal = (valorTotal + valorPorPessoa) / pagantes;
-    valorPorPessoaFinal = Math.ceil(valorPorPessoaFinal); // Arredondar para cima
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #334155;
+      font-weight: 600;
+    }
 
-    // Total arrecadado com os pagantes
-    const totalArrecadado = valorPorPessoaFinal * pagantes;
+    input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
 
-    // Caixa (sobra) = valor por pagante (pois foi ajustado para isso)
-    const caixa = valorPorPessoaFinal;
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-    // Exibir resultados
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = `
-        <strong>Resultado:</strong><br>
-        Valor da Van: R$ ${valorVan.toFixed(2)}<br>
-        Guias Isentos: ${guiasIsentos}<br>
-        Valor do Almoço por Isento: R$ ${valorAlmoco.toFixed(2)}<br>
-        Total do Almoço dos Isentos: R$ ${totalAlmocoIsentos.toFixed(2)}<br>
-        Lugares na Van: ${lugaresVan}<br>
-        Quantidade de Pagantes (incluindo o caixa): ${pagantes}<br>
-        Valor por Pagante: R$ ${valorPorPessoaFinal.toFixed(2)}<br>
-        Caixa (sobra): R$ ${caixa.toFixed(2)}<br>
-        Total Arrecadado: R$ ${totalArrecadado.toFixed(2)}
-    `;
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .resultado {
+      margin-top: 25px;
+      background: #e0f2fe;
+      color: #075985;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: 500;
+      text-align: center;
+      white-space: pre-line;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Calculadora de Van</h2>
+
+    <label for="valorVan">Valor total da Van (R$):</label>
+    <input type="number" id="valorVan" placeholder="Ex: 5000" />
+
+    <label for="isentos">Quantidade de isentos:</label>
+    <input type="number" id="isentos" placeholder="Ex: 2" />
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div class="resultado" id="resultado"></div>
+  </div>
+
+  <script>
+   function calcular() {
+  const valorVan = parseFloat(document.getElementById("valorVan").value);
+  const isentos = parseInt(document.getElementById("isentos").value);
+  const totalAssentos = 18;
+  const caixa = 1;
+
+  const resultadoDiv = document.getElementById("resultado");
+
+  if (isNaN(valorVan) || isNaN(isentos)) {
+    resultadoDiv.innerText = "Preencha todos os campos corretamente.";
+    return;
+  }
+
+  const pagantes = totalAssentos - isentos - caixa;
+
+  if (pagantes <= 0) {
+    resultadoDiv.innerText = "Quantidade de isentos é muito alta.";
+    return;
+  }
+
+  const valorPorPessoa = valorVan / pagantes;
+
+  resultadoDiv.innerText = 
+    `Dividido entre ${pagantes} pagantes\nValor por pagante: R$ ${valorPorPessoa.toFixed(2)}\n(com ${isentos} isento(s) e 1 caixa)`;
 }
 
-</script>
-
-
+  </script>
 </body>
 </html>
