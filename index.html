@@ -4,42 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calculadora de Rateio - Van</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cálculo do Valor da Van</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" href="logoVan.ico" type="image/x-icon">
+  <meta property="og:title" content="Rateio da Van">
+  <meta property="og:description" content="CÁLCULO DO VALOR DA VAN">
+  <meta property="og:image" content="https://trilhandotrekking.github.io/rateio/logoVan.png">
+  <meta property="og:url" content="https://trilhandotrekking.github.io/rateio/">
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="logoVan.ico" type="image/x-icon">
-    <meta property="og:title" content="Rateio da Van">
-    <meta property="og:description" content="CÁLCULO DO VALOR DA VAN">
-    <meta property="og:image" content="https://trilhandotrekking.github.io/rateio/logoVan.png">
-    <meta property="og:url" content="https://trilhandotrekking.github.io/rateio/">
-<style>
-  body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f5f7fb;color:#1b1f23;padding:22px}
-  .card{max-width:860px;margin:18px auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
-  h1{margin:0 0 10px;font-size:18px}
-  label{display:block;margin-top:12px;font-weight:600;font-size:13px}
-  input[type=number]{width:100%;padding:10px;border-radius:8px;border:1px solid #d7dbe6;margin-top:6px;box-sizing:border-box}
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button{ -webkit-appearance:none;margin:0 }
-  input[type=number]{ -moz-appearance:textfield }
-  .row{display:flex;gap:12px}
-  .col{flex:1}
-  .note{font-size:13px;color:#4b5563;margin-top:10px}
-  .resultado{margin-top:18px;background:#f0f9ff;padding:14px;border-radius:10px}
-  .linha{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(0,0,0,0.06)}
-  .linha:last-child{border-bottom:0}
-  .btn{margin-top:14px;padding:10px;border-radius:10px;border:0;background:#0b63c6;color:#fff;font-weight:700;cursor:pointer;width:100%}
-  .small{font-size:13px;color:#334155}
-</style>
+  <style>
+    body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f5f7fb;color:#1b1f23;padding:22px}
+    .card{max-width:860px;margin:18px auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
+    h1{margin:0 0 10px;font-size:18px}
+    label{display:block;margin-top:12px;font-weight:600;font-size:13px}
+    input[type=number], input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid #d7dbe6;margin-top:6px;box-sizing:border-box}
+    input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    input[type=number]{-moz-appearance:textfield}
+    .row{display:flex;gap:12px}
+    .col{flex:1}
+    .note{font-size:13px;color:#4b5563;margin-top:10px}
+    .resultado{margin-top:18px;background:#f0f9ff;padding:14px;border-radius:10px}
+    .linha{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(0,0,0,0.06)}
+    .linha:last-child{border-bottom:0}
+    .btn{margin-top:14px;padding:10px;border-radius:10px;border:0;background:#0b63c6;color:#fff;font-weight:700;cursor:pointer;width:100%}
+    .small{font-size:13px;color:#334155}
+  </style>
 </head>
 <body>
   <div class="card">
     <h1>Calculadora de Rateio - Van</h1>
 
     <label for="valorVan">Valor da Van (R$)</label>
-    <input id="valorVan" type="number" step="0.01" min="0" inputmode="decimal" value="3000">
+    <input id="valorVan" type="text" inputmode="decimal" value="3000">
 
     <div class="row">
       <div class="col">
@@ -48,7 +43,7 @@
       </div>
       <div class="col">
         <label for="guiasExtras">Quantidade de guias extras</label>
-        <input id="guiasExtras" type="number" min="0" step="1" inputmode="numeric" value="0">
+        <input id="guiasExtras" type="number" min="0" step="1" inputmode="numeric" value="1">
       </div>
     </div>
 
@@ -57,7 +52,8 @@
     <div id="resultado" class="resultado" style="display:none"></div>
 
     <p class="note">
-      Regras aplicadas: <strong>Sempre</strong> 2 guias isentos e <strong>sempre</strong> 1 Caixa.<br>    
+      Regras aplicadas: <strong>Sempre</strong> 2 guias isentos e <strong>sempre</strong> 1 Caixa.<br>
+      Arredondamento: <strong>sempre para cima até o próximo real</strong> (ex.: R$ 273,33 → R$ 274,00).
     </p>
   </div>
 
@@ -71,13 +67,15 @@
   const GUIAS_ISENTOS = 2;
   const CAIXA = 1;
 
-  [valorVanEl, totalVagasEl, guiasExtrasEl].forEach(i => {
-    i.addEventListener('input', e => {
-      e.target.value = e.target.value.replace(/[^0-9.,-]/g, '');
-    });
-    i.addEventListener('input', calcular);
+  // Restrição de caracteres
+  valorVanEl.addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/[^0-9.,]/g, '');
+  });
+  [totalVagasEl, guiasExtrasEl].forEach(i => {
+    i.addEventListener('input', e => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); });
   });
 
+  [valorVanEl, totalVagasEl, guiasExtrasEl].forEach(i => i.addEventListener('input', calcular));
   botao.addEventListener('click', calcular);
   window.addEventListener('DOMContentLoaded', calcular);
 
@@ -85,14 +83,22 @@
     return Number(num).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
   }
 
-  function round2(num){ return Math.round((num + Number.EPSILON) * 100) / 100; }
+  function centsToNumber(cents){ return cents / 100; }
+
+  function parseBRToCents(str){
+    if (!str) return 0;
+    const normalized = String(str).replace(/\./g,'').replace(',', '.');
+    const n = parseFloat(normalized);
+    if (isNaN(n)) return 0;
+    return Math.round(n * 100);
+  }
 
   function calcular(){
-    const valorVan = parseFloat(valorVanEl.value.replace(',', '.')) || 0;
+    const valorVanCents = parseBRToCents(valorVanEl.value);
     const totalVagas = parseInt(totalVagasEl.value,10) || 0;
     const guiasExtras = parseInt(guiasExtrasEl.value,10) || 0;
 
-    if (valorVan <= 0){
+    if (valorVanCents <= 0){
       resultadoEl.style.display = 'block';
       resultadoEl.innerHTML = `<p class="small">Informe um <strong>Valor da Van</strong> maior que zero.</p>`;
       return;
@@ -103,8 +109,8 @@
       return;
     }
 
-    const vagasParticipantes = totalVagas - GUIAS_ISENTOS;
-    const pagantesQueDividemVan = vagasParticipantes - CAIXA;
+    const vagasParticipantes = totalVagas - GUIAS_ISENTOS;       // inclui Caixa e guias extras
+    const pagantesQueDividemVan = vagasParticipantes - CAIXA;   // que efetivamente pagam a Van
 
     if (pagantesQueDividemVan <= 0){
       resultadoEl.style.display = 'block';
@@ -112,55 +118,88 @@
       return;
     }
 
-    const valorPorParticipante = valorVan / pagantesQueDividemVan;
-    const totalArrecadadoParticipantes = valorPorParticipante * vagasParticipantes;
-    const valorDestinadoCaixa = valorPorParticipante;
-    const totalPagoGuiasExtras = guiasExtras * valorPorParticipante;
+    // =========================
+    // ARREDONDAMENTO: sempre para cima até o próximo REAL
+    // (operamos em centavos e "ceil" ao múltiplo de 100 cents)
+    // =========================
+
+    // Valor por participante (em centavos), arredondado para o próximo real
+    const rawPerParticipant = valorVanCents / pagantesQueDividemVan; // em centavos (pode fracionar)
+    const valorPorParticipanteCents = Math.ceil(rawPerParticipant / 100) * 100;
+
+    // Total arrecadado pela lista de participantes (inclui Caixa)
+    const totalArrecadadoParticipantesCents = valorPorParticipanteCents * vagasParticipantes;
+
+    // Caixa (vaga ocupada pelo caixa)
+    const valorCaixaCents = valorPorParticipanteCents;
+
+    // Guias extras (pagam o valorPorParticipante) e rateio entre guias
+    const totalPagoGuiasExtrasCents = guiasExtras * valorPorParticipanteCents;
     const totalGuiasQueRecebem = GUIAS_ISENTOS + guiasExtras;
-    const rateioPorGuia = totalGuiasQueRecebem > 0 ? totalPagoGuiasExtras / totalGuiasQueRecebem : 0;
+    const rateioPorGuiaCents = totalGuiasQueRecebem > 0 ? Math.ceil((totalPagoGuiasExtrasCents / totalGuiasQueRecebem) / 100) * 100 : 0;
 
-    const vp = round2(valorPorParticipante);
-    const tAP = round2(totalArrecadadoParticipantes);
-    const tPGE = round2(totalPagoGuiasExtras);
-    const rPG = round2(rateioPorGuia);
-    const reversaEspera = round2(valorVan + valorPorParticipante);
-    const reversaCalc = tAP;
-    const dif = round2(Math.abs(reversaEspera - reversaCalc));
+    // Parte destinada à Van (pagantes que efetivamente pagam a Van)
+    const destinadaVanCents = valorPorParticipanteCents * pagantesQueDividemVan;
 
-    // 🟢 Exibição condicional para guias extras
+    // Verificação (Van + Caixa) e diferença causada pelo arredondamento
+    const reversaEsperaCents = valorVanCents + valorCaixaCents;
+    const difCents = Math.abs(totalArrecadadoParticipantesCents - reversaEsperaCents);
+
+    // Conversões para exibição
+    const valorPorParticipante = centsToNumber(valorPorParticipanteCents);
+    const totalArrecadadoParticipantes = centsToNumber(totalArrecadadoParticipantesCents);
+    const valorCaixa = centsToNumber(valorCaixaCents);
+    const totalPagoGuiasExtras = centsToNumber(totalPagoGuiasExtrasCents);
+    const rateioPorGuia = centsToNumber(rateioPorGuiaCents);
+    const destinadaVan = centsToNumber(destinadaVanCents);
+    const reversaEspera = centsToNumber(reversaEsperaCents);
+    const dif = centsToNumber(difCents);
+
     const blocoGuiasExtras = guiasExtras > 0 ? `
       <div class="linha"><div>Guias extras (pagantes):</div><div>${guiasExtras}</div></div>
-      <div class="linha"><div>Total da soma guias extras:</div><div><strong>${fmtBR(tPGE)}</strong></div></div>
+      <div class="linha"><div>Total da soma guias extras:</div><div><strong>${fmtBR(totalPagoGuiasExtras)}</strong></div></div>
       <div class="linha"><div>Soma dos guias extras dividido por:</div><div>${totalGuiasQueRecebem}</div></div>
-      <div class="linha"><div><strong>Valor por guia:</strong></div><div><strong>${fmtBR(rPG)}</strong></div></div>
+      <div class="linha"><div>Valor recebido por cada guia (rateio, arredondado p/ real):</div><div><strong>${fmtBR(rateioPorGuia)}</strong></div></div>
     ` : `
       <div class="linha"><div>Guias extras:</div><div>0</div></div>
+      <div class="linha"><div>Total da soma guias extras:</div><div><strong>${fmtBR(0)}</strong></div></div>
+      <div class="linha"><div>Soma dos guias extras dividido por:</div><div>${totalGuiasQueRecebem}</div></div>
+      <div class="linha"><div>Valor recebido por cada guia (rateio):</div><div><strong>${fmtBR(0)}</strong></div></div>
     `;
 
     resultadoEl.style.display = 'block';
     resultadoEl.innerHTML = `
       <h3>Resumo</h3>
-      <div class="linha"><div>Total de participantes:</div><div><strong>${totalVagas}</strong></div></div>
-      <div class="linha"><div>Guias isentos (fixo):</div><div>${GUIAS_ISENTOS}</div></div>
-      <div class="linha"><div>Total de pagantes:</div><div><strong>${vagasParticipantes}</strong></div></div>
-      <div class="linha"><div>Caixa:</div><div>${CAIXA}</div></div>
-      <div class="linha"><div>Valor da Van dividido por:</div><div><strong>${pagantesQueDividemVan}</strong></div></div>
 
-      <div class="linha"><div><strong>Valor por participante:</strong></div><div><strong>${fmtBR(vp)}</strong></div></div>
-      <div class="linha"><div>Destinada ao Caixa:</div><div><strong>${fmtBR(valorDestinadoCaixa)}</strong></div></div>
+      <div class="linha"><div>Total de participantes (inclui guias):</div><div><strong>${totalVagas}</strong></div></div>
+      <div class="linha"><div>Guias isentos (fixo):</div><div>${GUIAS_ISENTOS}</div></div>
+      <div class="linha"><div>Vagas abertas para participantes (inclui Caixa e guias extras):</div><div><strong>${vagasParticipantes}</strong></div></div>
+      <div class="linha"><div>Caixa (vaga ocupada pelo Caixa):</div><div>${CAIXA}</div></div>
+      <div class="linha"><div>Pagantes que dividem a Van (exclui Caixa):</div><div><strong>${pagantesQueDividemVan}</strong></div></div>
+
+      <div style="height:8px"></div>
+
+      <div class="linha"><div><strong>Valor por participante (arred. para cima ao real):</strong></div><div><strong>${fmtBR(valorPorParticipante)}</strong></div></div>
+      <div class="linha"><div>Parte destinada ao Caixa:</div><div><strong>${fmtBR(valorCaixa)}</strong></div></div>
+
+      <div style="height:8px"></div>
 
       ${blocoGuiasExtras}
 
-      <div class="linha"><div>Destinada à Van:</div>
-      <div><strong>${fmtBR(round2(valorPorParticipante * pagantesQueDividemVan))}</strong></div></div>
+      <div style="height:8px"></div>
 
-      <div class="linha"><div>Total arrecadado mais Caixa</div>
-      <div><strong>${fmtBR(reversaCalc)}</strong></div></div>
+      <div class="linha"><div>Parte destinada à Van (pagantes que pagam a Van):</div>
+      <div><strong>${fmtBR(destinadaVan)}</strong></div></div>
 
-      <div style="height:50px"></div>
+      <div class="linha"><div>Total arrecadado pelos participantes (inclui Caixa):</div>
+      <div><strong>${fmtBR(totalArrecadadoParticipantes)}</strong></div></div>
+
+      <div style="height:8px"></div>
+
       <p class="small">
-        Cálculo esperado: <strong>${fmtBR(reversaEspera)}</strong>.<br>
-        Diferença: <strong>${fmtBR(dif)}</strong> (apenas arredondamento).
+        Verificação: espera-se que <strong>total arrecadado = valor da Van + valor do Caixa</strong> (ajustado por arredondamentos).<br>
+        valor da Van + Caixa = <strong>${fmtBR(reversaEspera)}</strong>.<br>
+        Diferença por arredondamento (acréscimo): <strong>${fmtBR(dif)}</strong>.
       </p>
     `;
   }
